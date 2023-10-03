@@ -10,8 +10,7 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithOneVariable() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addParameterVariable("countryCode", GraphQLConstants.TYPE_ID, true)
-                .addVariable("countryCode", "BR")
+                .addVariable("countryCode", GraphQLConstants.TYPE_ID, "BR", true)
                 .build();
 
         assertEquals("query Query($countryCode: ID!) ", graphQLQuery.getQuery());
@@ -20,12 +19,10 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithMultipleVariables() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addParameterVariable("city", GraphQLConstants.TYPE_STRING, false)
-                .addParameterVariable("age", GraphQLConstants.TYPE_INT, true)
-                .addParameterVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false)
-                .addVariable("city", "Tokio")
-                .addVariable("age", 19)
-                .addVariable("retired", false)
+                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
+                .addVariable("age", GraphQLConstants.TYPE_INT, 21, true)
+                .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
+
                 .build();
 
         assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) ", graphQLQuery.getQuery());

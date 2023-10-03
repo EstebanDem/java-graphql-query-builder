@@ -34,40 +34,26 @@ public class GraphQLQuery {
             variables = new HashMap<>();
         }
 
-        public GraphQLQueryBuilder addParameterVariable(String paramVariable, String type, Boolean isMandatory) {
+        public GraphQLQueryBuilder addVariable(String key, String type, Object value, Boolean isMandatory) {
+            variables.put(key, value);
+
             if (parameterVariablesCount > 0) {
                 query += GraphQLConstants.QUERY_PARAM_VARIABLES_SEPARATOR;
             }
+            parameterVariablesCount++;
 
             String variableTemplate = isMandatory
                     ? GraphQLConstants.QUERY_MANDATORY_VARIABLE_TEMPLATE
                     : GraphQLConstants.QUERY_VARIABLE_TEMPLATE;
 
-            String newVariable = String.format(variableTemplate, paramVariable, type);
+            String newVariable = String.format(variableTemplate, key, type);
             query += newVariable;
-            parameterVariablesCount++;
 
-            return this;
-        }
-
-        public GraphQLQueryBuilder addVariable(String key, Object value) {
-            variables.put(key, value);
             return this;
         }
 
         public GraphQLQuery build() {
-            validateParamsAndVariablesMatch();
             return new GraphQLQuery(this);
         }
-
-        private void validateParamsAndVariablesMatch() {
-            if (variables.size() != parameterVariablesCount) {
-                // clearer
-                throw new RuntimeException("There are " + variables.size() + " variables, " +
-                        "but " + parameterVariablesCount + " have been defined.");
-            }
-        }
-
-
     }
 }
