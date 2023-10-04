@@ -1,4 +1,4 @@
-package dem.esteban.graphql.query.builder.response.countryapi;
+package dem.esteban.graphql.query.builder.constants;
 
 public interface GraphQLConstants {
     String QUERY_WITH_PARAMETERS_FORMAT ="query Query(%s) { %s }";
