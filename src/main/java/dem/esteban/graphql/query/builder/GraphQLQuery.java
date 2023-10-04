@@ -38,9 +38,7 @@ public class GraphQLQuery {
         }
 
         public GraphQLQueryBuilder addVariable(String key, String type, Object value, Boolean isMandatory) {
-            if (fieldsStructureDefined) {
-                throw new IllegalStateException("Cannot add variables after field structure definition");
-            }
+            validateFieldsStructureDefinitionHaveNotBeenDefined();
             variablesHaveBeenDefined = true;
             variables.put(key, value);
 
@@ -60,9 +58,7 @@ public class GraphQLQuery {
         }
 
         public GraphQLQueryBuilder addFieldsStructure(Class<?> clazz) {
-            if (!variablesHaveBeenDefined) {
-                throw new IllegalStateException("Fields should be defined after variables have been declared");
-            }
+            validateVariablesHaveBeenDefined();
             String fieldsStructure = ClassToGraphQLAttributesUtil.generateStructure(clazz);
 
             query = query
@@ -71,6 +67,18 @@ public class GraphQLQuery {
                     + GraphQLConstants.QUERY_END;
             fieldsStructureDefined = true;
             return this;
+        }
+
+        private void validateFieldsStructureDefinitionHaveNotBeenDefined() {
+            if (fieldsStructureDefined) {
+                throw new IllegalStateException("Cannot add variables after field structure definition");
+            }
+        }
+
+        private void validateVariablesHaveBeenDefined() {
+            if (!variablesHaveBeenDefined) {
+                throw new IllegalStateException("Fields should be defined after variables have been declared");
+            }
         }
 
         public GraphQLQuery build() {
