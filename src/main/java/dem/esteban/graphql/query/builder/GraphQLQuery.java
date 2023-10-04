@@ -81,7 +81,14 @@ public class GraphQLQuery {
             }
         }
 
+        private void validateVariablesAndFieldsStructureHaveBeenDefined() {
+            if (!variablesHaveBeenDefined || !fieldsStructureDefined) {
+                throw new IllegalStateException("Variables and fields structure must been defined");
+            }
+        }
+
         public GraphQLQuery build() {
+            validateVariablesAndFieldsStructureHaveBeenDefined();
             return new GraphQLQuery(this);
         }
     }

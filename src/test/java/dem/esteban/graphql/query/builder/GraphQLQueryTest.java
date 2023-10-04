@@ -63,4 +63,13 @@ class GraphQLQueryTest {
 
         assertEquals("Cannot add variables after field structure definition", exception.getMessage());
     }
+
+    @Test
+    public void testQueryWithoutFieldDefinition() {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
+                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
+                .build());
+
+        assertEquals("Variables and fields structure must been defined", exception.getMessage());
+    }
 }
