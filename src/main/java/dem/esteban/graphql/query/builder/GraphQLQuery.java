@@ -27,7 +27,7 @@ public class GraphQLQuery {
         private String query;
         private Map<String, Object> variables;
 
-        // Control variables
+        // Flow Control variables
         private int parameterVariablesCount = 0;
         private boolean variablesHaveBeenDefined = false;
         private boolean fieldsStructureDefined = false;
