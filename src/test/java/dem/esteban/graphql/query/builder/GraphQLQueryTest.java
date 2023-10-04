@@ -3,7 +3,7 @@ package dem.esteban.graphql.query.builder;
 import dem.esteban.graphql.query.builder.response.countryapi.GraphQLConstants;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GraphQLQueryTest {
 
