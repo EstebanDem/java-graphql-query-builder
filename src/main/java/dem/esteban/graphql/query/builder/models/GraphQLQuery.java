@@ -1,8 +1,7 @@
-package dem.esteban.graphql.query.builder;
+package dem.esteban.graphql.query.builder.models;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLConstants;
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
-import dem.esteban.graphql.query.builder.models.GraphQLParameter;
 import dem.esteban.graphql.query.builder.utils.ClassToGraphQLAttributesUtil;
 
 import java.util.HashMap;

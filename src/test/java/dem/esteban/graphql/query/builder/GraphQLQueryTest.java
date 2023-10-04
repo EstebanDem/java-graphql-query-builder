@@ -2,6 +2,7 @@ package dem.esteban.graphql.query.builder;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
 import dem.esteban.graphql.query.builder.models.GraphQLParameter;
+import dem.esteban.graphql.query.builder.models.GraphQLQuery;
 import dem.esteban.graphql.query.builder.utils.classexamples.nesting.simple.Country;
 import org.junit.jupiter.api.Test;
 
