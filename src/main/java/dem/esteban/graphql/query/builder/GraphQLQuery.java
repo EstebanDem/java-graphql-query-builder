@@ -57,7 +57,7 @@ public class GraphQLQuery {
             return this;
         }
 
-        public GraphQLQueryBuilder addFieldsStructure(Class<?> clazz) {
+        public GraphQLQueryBuilder addFieldsStructureByClass(Class<?> clazz) {
             validateVariablesHaveBeenDefined();
             String fieldsStructure = ClassToGraphQLAttributesUtil.generateStructure(clazz);
 

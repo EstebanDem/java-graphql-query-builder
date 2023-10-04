@@ -12,7 +12,7 @@ class GraphQLQueryTest {
     public void testQueryWithOneVariable() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
                 .addVariable("countryCode", GraphQLConstants.TYPE_ID, "BR", true)
-                .addFieldsStructure(Country.class)
+                .addFieldsStructureByClass(Country.class)
                 .build();
 
         assertEquals("query Query($countryCode: ID!) {name languages { code name} }", graphQLQuery.getQuery());
@@ -28,7 +28,7 @@ class GraphQLQueryTest {
                 .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
                 .addVariable("age", GraphQLConstants.TYPE_INT, 21, true)
                 .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
-                .addFieldsStructure(Country.class)
+                .addFieldsStructureByClass(Country.class)
                 .build();
 
         assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) {name languages { code name} }", graphQLQuery.getQuery());
@@ -47,7 +47,7 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithoutDefiningVariables() {
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
-                .addFieldsStructure(Country.class)
+                .addFieldsStructureByClass(Country.class)
                 .build());
 
         assertEquals("Fields should be defined after variables have been declared", exception.getMessage());
@@ -57,7 +57,7 @@ class GraphQLQueryTest {
     public void testQueryAddingVariablesAfterDefiningFieldsStructure() {
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
                 .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
-                .addFieldsStructure(Country.class)
+                .addFieldsStructureByClass(Country.class)
                 .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
                 .build());
 
