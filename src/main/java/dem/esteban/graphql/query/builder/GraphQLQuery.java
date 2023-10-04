@@ -69,7 +69,12 @@ public class GraphQLQuery {
         }
 
         public GraphQLQuery build() {
-            query = String.format(GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT, queryName, parameterVariables, fieldsStructure);
+            query = String.format(
+                    GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT,
+                    queryName,
+                    parameterVariables,
+                    fieldsStructure
+            );
             return new GraphQLQuery(this);
         }
     }
