@@ -4,7 +4,8 @@ public final class GraphQLConstants {
     private GraphQLConstants() {
     }
 
-    public static String QUERY_WITH_PARAMETERS_FORMAT ="query Query(%s) { %s }";
+    public static String QUERY_DEFAULT_NAME = "Query";
+    public static String QUERY_WITH_PARAMETERS_FORMAT ="query %s(%s) { %s }";
 
     /**
      * String format of non-mandatory variable

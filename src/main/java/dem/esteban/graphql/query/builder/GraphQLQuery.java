@@ -26,6 +26,7 @@ public class GraphQLQuery {
 
     public static class GraphQLQueryBuilder {
         private String query;
+        private String queryName = GraphQLConstants.QUERY_DEFAULT_NAME;
         private String parameterVariables;
         private String fieldsStructure;
         private final Map<String, Object> variables;
@@ -37,6 +38,11 @@ public class GraphQLQuery {
             parameterVariables = "";
             fieldsStructure = "";
             variables = new HashMap<>();
+        }
+
+        public GraphQLQueryBuilder customQueryName(String queryName) {
+            this.queryName = queryName;
+            return this;
         }
 
         public GraphQLQueryBuilder addVariable(String key, GraphQLTypes type, Object value, Boolean isMandatory) {
@@ -63,7 +69,7 @@ public class GraphQLQuery {
         }
 
         public GraphQLQuery build() {
-            query = String.format(GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT, parameterVariables, fieldsStructure);
+            query = String.format(GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT, queryName, parameterVariables, fieldsStructure);
             return new GraphQLQuery(this);
         }
     }

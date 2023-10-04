@@ -44,4 +44,19 @@ class GraphQLQueryTest {
         assertTrue(graphQLQuery.getVariables().containsKey("retired"));
         assertEquals(false, graphQLQuery.getVariables().get("retired"));
     }
+
+    @Test
+    public void testQueryWithOneVariableWithCustomQueryName() {
+        GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
+                .customQueryName("getCountryByCode")
+                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true)
+                .addFieldsStructureByClass(Country.class)
+                .build();
+
+        assertEquals("query getCountryByCode($countryCode: ID!) { name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals(1, graphQLQuery.getVariables().size());
+
+        assertTrue(graphQLQuery.getVariables().containsKey("countryCode"));
+        assertEquals("BR", graphQLQuery.getVariables().get("countryCode"));
+    }
 }
