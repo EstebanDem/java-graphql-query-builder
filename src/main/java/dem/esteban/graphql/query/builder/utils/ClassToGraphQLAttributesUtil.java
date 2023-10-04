@@ -12,7 +12,6 @@ public final class ClassToGraphQLAttributesUtil {
 
     public static String generateStructure(Class<?> clazz) {
         String structure = generateFieldStructure(clazz);
-        System.out.println(structure);
         return structure;
     }
 
