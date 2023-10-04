@@ -2,6 +2,7 @@ package dem.esteban.graphql.query.builder;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLConstants;
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
+import dem.esteban.graphql.query.builder.models.GraphQLParameter;
 import dem.esteban.graphql.query.builder.utils.ClassToGraphQLAttributesUtil;
 
 import java.util.HashMap;
@@ -50,8 +51,17 @@ public class GraphQLQuery {
             return this;
         }
 
-        public GraphQLQueryBuilder addVariable(String key, GraphQLTypes type, Object value, Boolean isMandatory, String argument) {
-            variables.put(key, value);
+        public GraphQLQueryBuilder addVariable(String name, GraphQLTypes type, Object value, Boolean isMandatory, String argument) {
+            processNewVariable(new GraphQLParameter(name, type, isMandatory, argument, value));
+            return this;
+        }
+        public GraphQLQueryBuilder addVariable(GraphQLParameter graphQLParameter) {
+            processNewVariable(graphQLParameter);
+            return this;
+        }
+
+        private void processNewVariable(GraphQLParameter graphQLParameter) {
+            variables.put(graphQLParameter.getName(), graphQLParameter.getValue());
 
             if (parameterVariablesCount > 0) {
                 parameterVariables += GraphQLConstants.QUERY_PARAM_VARIABLES_SEPARATOR;
@@ -59,15 +69,13 @@ public class GraphQLQuery {
             }
             parameterVariablesCount++;
 
-            String variableTemplate = isMandatory
+            String variableTemplate = graphQLParameter.isMandatory()
                     ? GraphQLConstants.QUERY_MANDATORY_VARIABLE_TEMPLATE
                     : GraphQLConstants.QUERY_VARIABLE_TEMPLATE;
 
-            String newVariable = String.format(variableTemplate, key, type.getValue());
-            queryArguments += String.format(GraphQLConstants.ARGUMENT_TEMPLATE, argument, key);
+            String newVariable = String.format(variableTemplate, graphQLParameter.getName(), graphQLParameter.getType().getValue());
+            queryArguments += String.format(GraphQLConstants.ARGUMENT_TEMPLATE, graphQLParameter.getArgument(), graphQLParameter.getName());
             parameterVariables += newVariable;
-
-            return this;
         }
 
         public GraphQLQueryBuilder operationName(String operationName) {
