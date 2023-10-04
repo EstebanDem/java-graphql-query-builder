@@ -1,8 +1,6 @@
-package dem.esteban.graphql.query.builder;
+package dem.esteban.graphql.query.builder.models;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
-import dem.esteban.graphql.query.builder.models.GraphQLParameter;
-import dem.esteban.graphql.query.builder.models.GraphQLQuery;
 import dem.esteban.graphql.query.builder.utils.classexamples.nesting.simple.Country;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +11,7 @@ class GraphQLQueryTest {
 
     @Test
     public void testQueryWithOneVariable() {
-        GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
                 .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true, "code")
                 .addFieldsStructureByClass(Country.class)
                 .operationName("country")
@@ -35,7 +33,7 @@ class GraphQLQueryTest {
         graphQLParameter.setMandatory(true);
         graphQLParameter.setArgument("code");
 
-        GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
                 .addVariable(graphQLParameter)
                 .addFieldsStructureByClass(Country.class)
                 .operationName("country")
@@ -50,7 +48,7 @@ class GraphQLQueryTest {
 
     @Test
     public void testQueryWithMultipleVariables() {
-        GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
                 .addVariable("city", GraphQLTypes.TYPE_STRING, "Tokio", false, "argCity")
                 .addVariable("age", GraphQLTypes.TYPE_INT, 21, true, "argAge")
                 .addVariable("retired", GraphQLTypes.TYPE_BOOLEAN, false, false, "argRetired")
@@ -73,7 +71,7 @@ class GraphQLQueryTest {
 
     @Test
     public void testQueryWithOneVariableWithCustomQueryName() {
-        GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
                 .customQueryName("getCountryByCode")
                 .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true, "code")
                 .addFieldsStructureByClass(Country.class)
