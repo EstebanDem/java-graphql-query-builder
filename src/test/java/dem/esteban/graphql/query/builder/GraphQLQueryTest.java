@@ -12,11 +12,12 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithOneVariable() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true)
+                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true, "code")
                 .addFieldsStructureByClass(Country.class)
+                .operationName("country")
                 .build();
 
-        assertEquals("query Query($countryCode: ID!) { name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals("query Query($countryCode: ID!) { country(code: $countryCode) { name languages { code name} }}", graphQLQuery.getQuery());
         assertEquals(1, graphQLQuery.getVariables().size());
 
         assertTrue(graphQLQuery.getVariables().containsKey("countryCode"));
@@ -26,13 +27,14 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithMultipleVariables() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("city", GraphQLTypes.TYPE_STRING, "Tokio", false)
-                .addVariable("age", GraphQLTypes.TYPE_INT, 21, true)
-                .addVariable("retired", GraphQLTypes.TYPE_BOOLEAN, false, false)
+                .addVariable("city", GraphQLTypes.TYPE_STRING, "Tokio", false, "argCity")
+                .addVariable("age", GraphQLTypes.TYPE_INT, 21, true, "argAge")
+                .addVariable("retired", GraphQLTypes.TYPE_BOOLEAN, false, false, "argRetired")
                 .addFieldsStructureByClass(Country.class)
+                .operationName("cityInformation")
                 .build();
 
-        assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) { name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) { cityInformation(argCity: $city, argAge: $age, argRetired: $retired) { name languages { code name} }}", graphQLQuery.getQuery());
         assertEquals(3, graphQLQuery.getVariables().size());
 
         assertTrue(graphQLQuery.getVariables().containsKey("city"));
@@ -49,11 +51,12 @@ class GraphQLQueryTest {
     public void testQueryWithOneVariableWithCustomQueryName() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
                 .customQueryName("getCountryByCode")
-                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true)
+                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true, "code")
                 .addFieldsStructureByClass(Country.class)
+                .operationName("country")
                 .build();
 
-        assertEquals("query getCountryByCode($countryCode: ID!) { name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals("query getCountryByCode($countryCode: ID!) { country(code: $countryCode) { name languages { code name} }}", graphQLQuery.getQuery());
         assertEquals(1, graphQLQuery.getVariables().size());
 
         assertTrue(graphQLQuery.getVariables().containsKey("countryCode"));
