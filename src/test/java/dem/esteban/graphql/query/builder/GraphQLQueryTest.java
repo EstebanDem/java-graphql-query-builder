@@ -15,7 +15,7 @@ class GraphQLQueryTest {
                 .addFieldsStructureByClass(Country.class)
                 .build();
 
-        assertEquals("query Query($countryCode: ID!) {name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals("query Query($countryCode: ID!) { name languages { code name} }", graphQLQuery.getQuery());
         assertEquals(1, graphQLQuery.getVariables().size());
 
         assertTrue(graphQLQuery.getVariables().containsKey("countryCode"));
@@ -31,7 +31,7 @@ class GraphQLQueryTest {
                 .addFieldsStructureByClass(Country.class)
                 .build();
 
-        assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) {name languages { code name} }", graphQLQuery.getQuery());
+        assertEquals("query Query($city: String, $age: Int!, $retired: Boolean) { name languages { code name} }", graphQLQuery.getQuery());
         assertEquals(3, graphQLQuery.getVariables().size());
 
         assertTrue(graphQLQuery.getVariables().containsKey("city"));
@@ -42,34 +42,5 @@ class GraphQLQueryTest {
 
         assertTrue(graphQLQuery.getVariables().containsKey("retired"));
         assertEquals(false, graphQLQuery.getVariables().get("retired"));
-    }
-
-    @Test
-    public void testQueryWithoutDefiningVariables() {
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
-                .addFieldsStructureByClass(Country.class)
-                .build());
-
-        assertEquals("Fields should be defined after variables have been declared", exception.getMessage());
-    }
-
-    @Test
-    public void testQueryAddingVariablesAfterDefiningFieldsStructure() {
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
-                .addFieldsStructureByClass(Country.class)
-                .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
-                .build());
-
-        assertEquals("Cannot add variables after field structure definition", exception.getMessage());
-    }
-
-    @Test
-    public void testQueryWithoutFieldDefinition() {
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
-                .build());
-
-        assertEquals("Variables and fields structure must been defined", exception.getMessage());
     }
 }

@@ -25,25 +25,24 @@ public class GraphQLQuery {
 
     public static class GraphQLQueryBuilder {
         private String query;
-        private Map<String, Object> variables;
+        private String parameterVariables;
+        private String fieldsStructure;
+        private final Map<String, Object> variables;
 
         // Flow Control variables
         private int parameterVariablesCount = 0;
-        private boolean variablesHaveBeenDefined = false;
-        private boolean fieldsStructureDefined = false;
 
         public GraphQLQueryBuilder() {
-            query = GraphQLConstants.QUERY_INITIALIZER;
+            parameterVariables = "";
+            fieldsStructure = "";
             variables = new HashMap<>();
         }
 
         public GraphQLQueryBuilder addVariable(String key, String type, Object value, Boolean isMandatory) {
-            validateFieldsStructureDefinitionHaveNotBeenDefined();
-            variablesHaveBeenDefined = true;
             variables.put(key, value);
 
             if (parameterVariablesCount > 0) {
-                query += GraphQLConstants.QUERY_PARAM_VARIABLES_SEPARATOR;
+                parameterVariables += GraphQLConstants.QUERY_PARAM_VARIABLES_SEPARATOR;
             }
             parameterVariablesCount++;
 
@@ -52,43 +51,18 @@ public class GraphQLQuery {
                     : GraphQLConstants.QUERY_VARIABLE_TEMPLATE;
 
             String newVariable = String.format(variableTemplate, key, type);
-            query += newVariable;
+            parameterVariables += newVariable;
 
             return this;
         }
 
         public GraphQLQueryBuilder addFieldsStructureByClass(Class<?> clazz) {
-            validateVariablesHaveBeenDefined();
-            String fieldsStructure = ClassToGraphQLAttributesUtil.generateStructure(clazz);
-
-            query = query
-                    + GraphQLConstants.QUERY_PARAMS_END
-                    + fieldsStructure
-                    + GraphQLConstants.QUERY_END;
-            fieldsStructureDefined = true;
+            fieldsStructure += ClassToGraphQLAttributesUtil.generateStructure(clazz);
             return this;
         }
 
-        private void validateFieldsStructureDefinitionHaveNotBeenDefined() {
-            if (fieldsStructureDefined) {
-                throw new IllegalStateException("Cannot add variables after field structure definition");
-            }
-        }
-
-        private void validateVariablesHaveBeenDefined() {
-            if (!variablesHaveBeenDefined) {
-                throw new IllegalStateException("Fields should be defined after variables have been declared");
-            }
-        }
-
-        private void validateVariablesAndFieldsStructureHaveBeenDefined() {
-            if (!variablesHaveBeenDefined || !fieldsStructureDefined) {
-                throw new IllegalStateException("Variables and fields structure must been defined");
-            }
-        }
-
         public GraphQLQuery build() {
-            validateVariablesAndFieldsStructureHaveBeenDefined();
+            query = String.format(GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT, parameterVariables, fieldsStructure);
             return new GraphQLQuery(this);
         }
     }

@@ -1,9 +1,7 @@
 package dem.esteban.graphql.query.builder.response.countryapi;
 
 public interface GraphQLConstants {
-    String QUERY_INITIALIZER = "query Query(";
-    String QUERY_PARAMS_END = ") {";
-    String QUERY_END = " }";
+    String QUERY_WITH_PARAMETERS_FORMAT ="query Query(%s) { %s }";
 
     /**
      * String format of non-mandatory variable
