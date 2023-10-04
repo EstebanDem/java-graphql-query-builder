@@ -1,6 +1,7 @@
 package dem.esteban.graphql.query.builder;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLConstants;
+import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
 import dem.esteban.graphql.query.builder.utils.ClassToGraphQLAttributesUtil;
 
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class GraphQLQuery {
             variables = new HashMap<>();
         }
 
-        public GraphQLQueryBuilder addVariable(String key, String type, Object value, Boolean isMandatory) {
+        public GraphQLQueryBuilder addVariable(String key, GraphQLTypes type, Object value, Boolean isMandatory) {
             variables.put(key, value);
 
             if (parameterVariablesCount > 0) {
@@ -50,7 +51,7 @@ public class GraphQLQuery {
                     ? GraphQLConstants.QUERY_MANDATORY_VARIABLE_TEMPLATE
                     : GraphQLConstants.QUERY_VARIABLE_TEMPLATE;
 
-            String newVariable = String.format(variableTemplate, key, type);
+            String newVariable = String.format(variableTemplate, key, type.getValue());
             parameterVariables += newVariable;
 
             return this;

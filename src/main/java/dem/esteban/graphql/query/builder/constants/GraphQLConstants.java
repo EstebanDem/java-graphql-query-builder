@@ -19,12 +19,4 @@ public final class GraphQLConstants {
     public static String QUERY_MANDATORY_VARIABLE_TEMPLATE = "$%s: %s!";
 
     public static String QUERY_PARAM_VARIABLES_SEPARATOR = ", ";
-
-    // Types
-    public static String TYPE_STRING = "String";
-    public static String TYPE_INT = "Int";
-    public static String TYPE_FLOAT = "Float";
-    public static String TYPE_BOOLEAN = "Boolean";
-    public static String TYPE_ID = "ID";
-    public static String TYPE_MANDATORY = "!";
 }

@@ -1,6 +1,7 @@
 package dem.esteban.graphql.query.builder;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLConstants;
+import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
 import dem.esteban.graphql.query.builder.utils.classexamples.nesting.simple.Country;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithOneVariable() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("countryCode", GraphQLConstants.TYPE_ID, "BR", true)
+                .addVariable("countryCode", GraphQLTypes.TYPE_ID, "BR", true)
                 .addFieldsStructureByClass(Country.class)
                 .build();
 
@@ -25,9 +26,9 @@ class GraphQLQueryTest {
     @Test
     public void testQueryWithMultipleVariables() {
         GraphQLQuery graphQLQuery = new GraphQLQuery.GraphQLQueryBuilder()
-                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
-                .addVariable("age", GraphQLConstants.TYPE_INT, 21, true)
-                .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
+                .addVariable("city", GraphQLTypes.TYPE_STRING, "Tokio", false)
+                .addVariable("age", GraphQLTypes.TYPE_INT, 21, true)
+                .addVariable("retired", GraphQLTypes.TYPE_BOOLEAN, false, false)
                 .addFieldsStructureByClass(Country.class)
                 .build();
 
