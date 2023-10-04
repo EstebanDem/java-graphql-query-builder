@@ -4,8 +4,7 @@ import dem.esteban.graphql.query.builder.response.countryapi.GraphQLConstants;
 import dem.esteban.graphql.query.builder.utils.classexamples.nesting.simple.Country;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GraphQLQueryTest {
 
@@ -43,5 +42,25 @@ class GraphQLQueryTest {
 
         assertTrue(graphQLQuery.getVariables().containsKey("retired"));
         assertEquals(false, graphQLQuery.getVariables().get("retired"));
+    }
+
+    @Test
+    public void testQueryWithoutDefiningVariables() {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
+                .addFieldsStructure(Country.class)
+                .build());
+
+        assertEquals("Fields should be defined after variables have been declared", exception.getMessage());
+    }
+
+    @Test
+    public void testQueryAddingVariablesAfterDefiningFieldsStructure() {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> new GraphQLQuery.GraphQLQueryBuilder()
+                .addVariable("city", GraphQLConstants.TYPE_STRING, "Tokio", false)
+                .addFieldsStructure(Country.class)
+                .addVariable("retired", GraphQLConstants.TYPE_BOOLEAN, false, false)
+                .build());
+
+        assertEquals("Cannot add variables after field structure definition", exception.getMessage());
     }
 }
