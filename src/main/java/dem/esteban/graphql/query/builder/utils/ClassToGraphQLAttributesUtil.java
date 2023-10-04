@@ -20,14 +20,13 @@ public final class ClassToGraphQLAttributesUtil {
         Field[] fields = clazz.getDeclaredFields();
 
         for (Field field : fields) {
-            result.append("").append(field.getName()).append(" ");
+            result.append(field.getName()).append(" ");
 
             if (field.getType().getTypeParameters().length > 0) {
                 result.append("{ ");
                 Type fieldType = field.getGenericType();
 
-                if (fieldType instanceof ParameterizedType) {
-                    ParameterizedType parameterizedType = (ParameterizedType) fieldType;
+                if (fieldType instanceof ParameterizedType parameterizedType) {
                     Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
                     if (actualTypeArguments.length > 0) {
