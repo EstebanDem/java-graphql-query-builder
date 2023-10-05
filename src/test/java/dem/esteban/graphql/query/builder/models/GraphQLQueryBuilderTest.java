@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GraphQLQueryTest {
+class GraphQLQueryBuilderTest {
 
     @Test
     public void testQueryWithOneVariable() {
