@@ -1,4 +1,4 @@
-package dem.esteban.graphql.query.builder.models;
+package dem.esteban.graphql.query.builder.models.request;
 
 import dem.esteban.graphql.query.builder.constants.GraphQLConstants;
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;

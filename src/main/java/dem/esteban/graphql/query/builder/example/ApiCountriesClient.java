@@ -3,8 +3,8 @@ package dem.esteban.graphql.query.builder.example;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
-import dem.esteban.graphql.query.builder.models.GraphQLQuery;
-import dem.esteban.graphql.query.builder.models.GraphQLQueryBuilder;
+import dem.esteban.graphql.query.builder.models.request.GraphQLQuery;
+import dem.esteban.graphql.query.builder.models.request.GraphQLQueryBuilder;
 import dem.esteban.graphql.query.builder.models.response.GraphQLResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,7 +14,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class ApiCountriesClient {
 
