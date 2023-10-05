@@ -14,12 +14,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ApiCountriesClient {
 
     private static final String URI = "https://countries.trevorblades.com/graphql";
 
-    public Country getResponse(String code) throws IOException {
+    public Country getCountry(String code) throws IOException {
         //Create client
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(URI);
@@ -27,7 +28,12 @@ public class ApiCountriesClient {
 
         // Transform the query into JSON
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(buildQuery(code));
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
+                .addVariable("countryCode", GraphQLTypes.TYPE_ID, code, true, "code")
+                .addFieldsStructureByClass(Country.class)
+                .operationName("country")
+                .build();
+        String json = objectMapper.writeValueAsString(graphQLQuery);
         httpPost.setEntity(new StringEntity(json));
 
         // Handle response
@@ -37,11 +43,27 @@ public class ApiCountriesClient {
         return countryResponse.getData().get("country");
     }
 
-    private GraphQLQuery buildQuery(String code) {
-        return GraphQLQueryBuilder.aGraphQLQueryBuilder()
-                .addVariable("countryCode", GraphQLTypes.TYPE_ID, code, true, "code")
+    public List<Country> getCountries() throws IOException {
+        //Create client
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(URI);
+        httpPost.setHeader("Content-Type", "application/json");
+
+        // Transform the query into JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        GraphQLQuery graphQLQuery = GraphQLQueryBuilder.aGraphQLQueryBuilder()
                 .addFieldsStructureByClass(Country.class)
-                .operationName("country")
+                .operationName("countries")
                 .build();
+        String json = objectMapper.writeValueAsString(graphQLQuery);
+        httpPost.setEntity(new StringEntity(json));
+
+        // Handle response
+        HttpResponse response = httpClient.execute(httpPost);
+        String jsonResponse = EntityUtils.toString(response.getEntity());
+        GraphQLResponse<List<Country>> countryResponse = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        return countryResponse.getData().get("countries");
     }
+
+
 }
