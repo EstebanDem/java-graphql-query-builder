@@ -84,15 +84,28 @@ public class GraphQLQueryBuilder {
         return this;
     }
 
+    private void buildFullQueryExpression() {
+        if (parameterVariablesCount == 0) {
+            fullQueryExpression = String.format(
+                    GraphQLConstants.QUERY_WITHOUT_PARAMETERS_FORMAT,
+                    queryName,
+                    operationName,
+                    fieldsStructure
+            );
+        } else {
+            fullQueryExpression = String.format(
+                    GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT,
+                    queryName,
+                    parameterVariables,
+                    operationName,
+                    queryArguments,
+                    fieldsStructure
+            );
+        }
+    }
+
     public GraphQLQuery build() {
-        fullQueryExpression = String.format(
-                GraphQLConstants.QUERY_WITH_PARAMETERS_FORMAT,
-                queryName,
-                parameterVariables,
-                operationName,
-                queryArguments,
-                fieldsStructure
-        );
+        buildFullQueryExpression();
         return new GraphQLQuery(this);
     }
 
