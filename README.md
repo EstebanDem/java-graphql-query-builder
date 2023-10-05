@@ -7,7 +7,7 @@ Let's suppose that you have to communicate with an external api that uses GraphQ
 In order to send a graphQL request with variables, you should send a **POST** with this body
 
 Operation
-```
+```graphql
 query Query ($countryCode: ID!) {
   country(code: $countryCode) {
     name
