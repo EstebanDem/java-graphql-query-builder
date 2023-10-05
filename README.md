@@ -76,10 +76,10 @@ public class Languages {
 ```java
 private GraphQLQuery buildQuery(String code) {
         return GraphQLQueryBuilder.aGraphQLQueryBuilder()
-        .addVariable("countryCode", GraphQLTypes.TYPE_ID, code, true, "code")
-        .addFieldsStructureByClass(Country.class)
-        .operationName("country")
-        .build();
+            .addVariable("countryCode", GraphQLTypes.TYPE_ID, code, true, "code")
+            .addFieldsStructureByClass(Country.class)
+            .operationName("country")
+            .build();
 }
 ```
 
