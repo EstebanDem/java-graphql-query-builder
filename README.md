@@ -6,7 +6,7 @@ Let's suppose that you have to communicate with an external api that uses GraphQ
 
 In order to send a graphQL request with variables, you should send a **POST** with this body
 
-Operation
+**Operation**
 ```graphql
 query Query ($countryCode: ID!) {
   country(code: $countryCode) {
@@ -19,14 +19,14 @@ query Query ($countryCode: ID!) {
 }
 ```
 
-Variables
+**Variables**
 ```json
 {
   "$countryCode": "AR"
 }
 ```
 
-Result
+**Result**
 ```json
 {
   "data": {
@@ -47,12 +47,12 @@ Result
 }
 ```
 
-
-
-You can do that using this builder this way:
+You can do that using the builder this way:
 
 1. Create a DTO class that represents the fields you want to receive after transforming the response (with `ObjectMapper` for example)
+
 ![img.png](img.png)
+
 In Java, it could be something like:
 
 ```java
