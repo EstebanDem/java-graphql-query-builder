@@ -1,9 +1,14 @@
 package dem.esteban.graphql.query.builder.models.response;
 
-public abstract class GraphQLResponse<T> {
-    private T data;
+import java.util.Map;
 
-    public T getData() {
+public class GraphQLResponse<T> {
+    private Map<String, T> data;
+
+    public Map<String, T> getData() {
         return data;
+    }
+    public void setData(Map<String, T> data) {
+        this.data = data;
     }
 }
