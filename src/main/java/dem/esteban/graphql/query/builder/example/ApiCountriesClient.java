@@ -1,9 +1,11 @@
 package dem.esteban.graphql.query.builder.example;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dem.esteban.graphql.query.builder.constants.GraphQLTypes;
 import dem.esteban.graphql.query.builder.models.GraphQLQuery;
 import dem.esteban.graphql.query.builder.models.GraphQLQueryBuilder;
+import dem.esteban.graphql.query.builder.models.response.GraphQLResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -18,7 +20,7 @@ public class ApiCountriesClient {
 
     private static final String URI = "https://countries.trevorblades.com/graphql";
 
-    public String getResponse(String code) throws IOException {
+    public Country getResponse(String code) throws IOException {
         //Create client
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(URI);
@@ -31,7 +33,9 @@ public class ApiCountriesClient {
 
         // Handle response
         HttpResponse response = httpClient.execute(httpPost);
-        return EntityUtils.toString(response.getEntity());
+        String jsonResponse = EntityUtils.toString(response.getEntity());
+        GraphQLResponse<Country> countryResponse = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        return countryResponse.getData().get("country");
     }
 
     private GraphQLQuery buildQuery(String code) {

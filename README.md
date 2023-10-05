@@ -59,11 +59,15 @@ In Java, it could be something like:
 public class Country {
     private String name;
     private List<Languages> languages;
+    
+    // Getters, Setters and toString()
 }
 
 public class Languages {
     private String code;
     private String name;
+
+    // Getters, Setters and toString()
 }
 ```
 
@@ -86,7 +90,7 @@ public class ApiCountriesClient {
 
     private static final String URI = "https://countries.trevorblades.com/graphql";
 
-    public String getResponse(String code) throws IOException {
+    public Country getResponse(String code) throws IOException {
         //Create client
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(URI);
@@ -99,7 +103,9 @@ public class ApiCountriesClient {
 
         // Handle response
         HttpResponse response = httpClient.execute(httpPost);
-        return EntityUtils.toString(response.getEntity());
+        String jsonResponse = EntityUtils.toString(response.getEntity());
+        GraphQLResponse<Country> countryResponse = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+        return countryResponse.getData().get("country");
     }
 
     private GraphQLQuery buildQuery(String code) {
@@ -115,7 +121,8 @@ public class MainExample {
 
     public static void main(String[] args) throws IOException {
         ApiCountriesClient countriesClient = new ApiCountriesClient();
-        System.out.println(countriesClient.getResponse("AR"));
+        Country country = countriesClient.getResponse("AR");
+        System.out.println(country);
     }
 }
 ```
@@ -123,7 +130,7 @@ public class MainExample {
 The print from the terminal gives the following:
 
 ```
-{"data":{"country":{"name":"Argentina","languages":[{"code":"es","name":"Spanish"},{"code":"gn","name":"Guarani"}]}}}
+Country{name='Argentina', languages=[Languages{code='es', name='Spanish'}, Languages{code='gn', name='Guarani'}]}
 ```
 
 

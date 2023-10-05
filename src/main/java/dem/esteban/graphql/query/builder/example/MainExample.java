@@ -6,6 +6,7 @@ public class MainExample {
 
     public static void main(String[] args) throws IOException {
         ApiCountriesClient countriesClient = new ApiCountriesClient();
-        System.out.println(countriesClient.getResponse("AR"));
+        Country country = countriesClient.getResponse("AR");
+        System.out.println(country);
     }
 }
